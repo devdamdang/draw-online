@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=	, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body,html{
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;   
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            height: 100%;
+            width: 100%;
+        }
+
+        .container .controls{
+            height: 40px;
+            background-color: aqua;
+            border-top: 1px solid #ddd;
+        }
+
+        .container main{
+            height: calc(100% - 40px);
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main class="main-drawer">
+            <canvas id="draw-area"></canvas>
+        </main>
+        <div class="controls">Control</div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket = io.connect('http://192.168.1.15');
+    socket.on('news', (data) => {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+    });
+    </script>
+    <script src="/public/drawer.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            Drawer.init({socket: socket});
+        });
+    </script>
+</body>
+</html>
